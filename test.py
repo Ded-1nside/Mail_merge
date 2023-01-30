@@ -91,7 +91,7 @@ def send_mail(services_GA, reciever_mail, sub_of_mail, body_of_mail, attachments
     return services_GA.users().messages().send(  
       userId = "me",  
       body = create_mail(reciever_mail, sub_of_mail, body_of_mail, attachments)  
-    ).execute() # Body of the mail with execute() function  
+    ).execute() 
   
 if __name__ == "__main__":
     send_mail(services_GA, "nikdanakari@gmail.com", "Sub", "Body", ["test.txt"]) # sending mail
