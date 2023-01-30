@@ -14,10 +14,13 @@ from email.mime.audio import MIMEAudio
 from email.mime.base import MIMEBase  
 from email.mime.multipart import MIMEMultipart  
 from mimetypes import guess_type as guess_mime_type  
+#import for spreadsheets
+import gspread
   
 # Request all access from Gmail, Drive and Spreadsheets APIs and project  
 SCOPES = ['https://mail.google.com/', 'https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/spreadsheets'] # providing the scope for Gmail, Drive and Spreadsheets APIs  
 sender_mail = 'nikdanakari@gmail.com' # giving our Gmail Id  
+gs = gspread.service_account(filename='creds.json')
   
 # using a default function to authenticate Gmail APIs  
 def authenticateGmailAPIs():  
@@ -94,4 +97,12 @@ def send_mail(services_GA, reciever_mail, sub_of_mail, body_of_mail, attachments
     ).execute() 
   
 if __name__ == "__main__":
-    send_mail(services_GA, "nikdanakari@gmail.com", "Sub", "Body", ["test.txt"]) # sending mail
+    spreadsheet_url = input("Type your spreadsheet URL: ")
+    sh = gs.open_by_url(spreadsheet_url) # opening table by url
+    worksheet = sh.sheet1 # getting access to the first sheet
+    recievers = worksheet.col_values(1)
+    counter = 0
+    for reciever in recievers:
+        send_mail(services_GA, reciever, "Sub", "Body", ["test.txt"]) # sending mail
+        counter += 1
+        worksheet.update_cell(counter, 2, 'sent')
