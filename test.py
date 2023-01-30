@@ -1,13 +1,12 @@
-# importing os and pickle module in program  
 import os  
 import pickle  
-# Creating utils for Gmail APIs  
+# imports for Gmail APIs  
 from googleapiclient.discovery import build  
 from google_auth_oauthlib.flow import InstalledAppFlow  
 from google.auth.transport.requests import Request  
-# Importing libraries for encoding/decoding messages in base64  
+# import for encoding/decoding messages in base64  
 from base64 import urlsafe_b64decode, urlsafe_b64encode  
-# Importing libraries for dealing with the attachment of MIME types in Gmail  
+# import for dealing with the attachment of MIME types in Gmail  
 from email.mime.text import MIMEText  
 from email.mime.multipart import MIMEMultipart  
 from email.mime.image import MIMEImage  
@@ -16,9 +15,9 @@ from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart  
 from mimetypes import guess_type as guess_mime_type  
   
-# Request all access from Gmail APIs and project  
-SCOPES = ['https://mail.google.com/'] # providing the scope for Gmail APIs  
-OurEmailID = 'nikdanakari@gmail.com' # giving our Gmail Id  
+# Request all access from Gmail, Drive and Spreadsheets APIs and project  
+SCOPES = ['https://mail.google.com/', 'https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/spreadsheets'] # providing the scope for Gmail, Drive and Spreadsheets APIs  
+sender_mail = 'nikdanakari@gmail.com' # giving our Gmail Id  
   
 # using a default function to authenticate Gmail APIs  
 def authenticateGmailAPIs():  
@@ -32,68 +31,67 @@ def authenticateGmailAPIs():
         if creds and creds.expired and creds.refresh_token:  
             creds.refresh(Request())  
         else:  
-            flow = InstalledAppFlow.from_client_secrets_file('client_secret_301749149278-oru4c4mfakk93vkhippf4nbnvb8nplfn.apps.googleusercontent.com.json', SCOPES) # downloaded credential name  
+            flow = InstalledAppFlow.from_client_secrets_file('creds.json', SCOPES) # downloaded credential name  
             creds = flow.run_local_server(port=0) # running credentials  
         # save the credentials for the next run  
         with open("token.pickle", "wb") as token:  
             pickle.dump(creds, token)  
     return build('gmail', 'v1', credentials=creds) # using Gmail to authenticate  
   
-# Get the Gmail API service by calling the function  
-ServicesGA = authenticateGmailAPIs()  
+# get the Gmail API service by calling the function  
+services_GA = authenticateGmailAPIs()  
   
-# Using a default funnction to add attachments in Mail  
-def AddAttachment(mail, NameofFile):  
-    content_type, encoding = guess_mime_type(NameofFile)  
+# function to add attachments  
+def add_attachment(mail, filename):  
+    content_type, encoding = guess_mime_type(filename)  
     if content_type is None or encoding is not None: # defining none file type attachment  
         content_type = 'application/octet-stream'  
     main_type, sub_type = content_type.split('/', 1)  
     if main_type == 'text': # defining text file type attachment  
-        fp = open(NameofFile, 'rb') # opening file  
+        fp = open(filename, 'rb')
         msg = MIMEText(fp.read().decode(), _subtype = sub_type)  
         fp.close()   
     elif main_type == 'image': # defining image file type attachment  
-        fp = open(NameofFile, 'rb')  
+        fp = open(filename, 'rb')  
         msg = MIMEImage(fp.read(), _subtype = sub_type)  
         fp.close()  
     elif main_type == 'audio': # defining audio file type attachment  
-        fp = open(NameofFile, 'rb')  
+        fp = open(filename, 'rb')  
         msg = MIMEAudio(fp.read(), _subtype = sub_type) # reading file  
         fp.close()  
     else:  
-        fp = open(NameofFile, 'rb')  
+        fp = open(filename, 'rb')  
         msg = MIMEBase(main_type, sub_type)  
         msg.set_payload(fp.read())  
         fp.close() # closing file  
-    NameofFile = os.path.basename(NameofFile)  
-    msg.add_header('Content-Disposition', 'attachment', NameofFile = NameofFile)  
+    filename = os.path.basename(filename)  
+    msg.add_header('Content-Disposition', 'attachment', filename = filename)  
     mail.attach(msg) # composing the mail with given attachment  
   
-# Creating mail with a default function  
-def CreateMail(RecieverMail, SubofMail, BodyofMail, attachments=[]): # various import content of mail as function's parameter  
-    # Using if else to check if there is any attachment in mail or not  
-    if not attachments: # no attachment is given in the mail  
-        mail = MIMEText(BodyofMail) # Body of Mail  
-        mail['to'] = RecieverMail # mail ID of Reciever  
-        mail['from'] = OurEmailID # our mail ID  
-        mail['subject'] = SubofMail # Subject of Mail  
-    else: # attachment is given in the mail  
+# creating mail function  
+def create_mail(reciever_mail, sub_of_mail, body_of_mail, attachments=[]): # various import content of mail as function's parameter  
+    # check if there is any attachment in mail or not  
+    if not attachments:
+        mail = MIMEText(body_of_mail) # Body of Mail  
+        mail['to'] = reciever_mail # mail ID of Reciever  
+        mail['from'] = sender_mail # our mail ID  
+        mail['subject'] = sub_of_mail # Subject of Mail  
+    else: 
         mail = MIMEMultipart()  
-        mail['to'] = RecieverMail  
-        mail['from'] = OurEmailID  
-        mail['subject'] = SubofMail  
-        mail.attach(MIMEText(BodyofMail))  
-        for NameofFile in attachments:  
-            AddAttachment(mail, NameofFile)  
+        mail['to'] = reciever_mail  
+        mail['from'] = sender_mail  
+        mail['subject'] = sub_of_mail  
+        mail.attach(MIMEText(body_of_mail))  
+        for filename in attachments:  
+            add_attachment(mail, filename)  
     return {'raw': urlsafe_b64encode(mail.as_bytes()).decode()}  
   
-# Creating a default function to send a mail  
-def SendMail(ServicesGA, RecieverMail, SubofMail, BodyofMail, attachments=[]):  
-    return ServicesGA.users().messages().send(  
+# function to send a mail  
+def send_mail(services_GA, reciever_mail, sub_of_mail, body_of_mail, attachments=[]):  
+    return services_GA.users().messages().send(  
       userId = "me",  
-      body = CreateMail(RecieverMail, SubofMail, BodyofMail, attachments)  
+      body = create_mail(reciever_mail, sub_of_mail, body_of_mail, attachments)  
     ).execute() # Body of the mail with execute() function  
   
-# Sending an email by adding important content, i.e., Reciever's mail, Subject, Body, etc.  
-SendMail(ServicesGA, "nikdanakari@gmail.com", "Python Project i.e., This is the subject of Mail we are sendimg!",   
-            "Now, this is the body of the email we are writing and we can add only written text here!", ["test.txt", "client_secret_301749149278-oru4c4mfakk93vkhippf4nbnvb8nplfn.apps.googleusercontent.com.json"]) # calling out default SendMail() function
+if __name__ == "__main__":
+    send_mail(services_GA, "nikdanakari@gmail.com", "Sub", "Body", ["test.txt"]) # sending mail

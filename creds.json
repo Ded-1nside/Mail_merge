@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "mail-merge-375918",
+  "private_key_id": "c88ed4ab4783560a688db1a1fdaff9641342dbe7",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCj9zpXHIc8rhmD\nr/J3R1ox9WdoDgHtYPUeXJeIRtPRKQdp8DzRYPCa1iN6IoWjh8dwqhrHJ+Sc/kAy\nAf5Gt9uovZ5yX1gF/TEnW+FA6BBXP+loo/0P0l3bIYLiHZuHBGk0iGEv86+ZLQas\n9ULXB023XdAcTmObZKN5W4P2RMJiSzMBYgiT8ISnoRY9Ftdp7UG22NoLYVZS53Qy\n9k5fzTpH0BQOtILEv9f9IYmEw+7s3x0gl24pI24EdaWxTU+UffSgftrKPkdP8Knf\nVb5fGPBSTXNWqPwqfy11LqrmkzBRFzdIrAYAfN2StI67gJ5Sq/vpJJOh7a1ZGBV4\nVwKYTEKhAgMBAAECggEATHTKY/deCkoGhLTlI4CGitgrRUaO2IFHG0bCtB2OxK/U\nkK4gteN1nkWvGlMBrNzx/1Oak/ZCsIAQMCFkz9YI29i7iwpxca18H6XE1e7AO+cF\n8DDTnm6SLE2miciTjrRcWE4lv2XqokrwG3NsHPd/YjshASn+YWXeooatdIbge1Nk\nbu9xO/7gqtX0fpdxG0pD1WYyApe7ObMTmuMqbQ+BeyiWp9t1kIBFqirjViTeIkij\nTyIQ0bp1uxazJBxLc2xEDNNmY1n4Dh5KORKjb9k2scBFlzMPogIeCTlAMZWuWDMr\n/2sRHmPd8tapelMTXEIDENX5sCQKZSi/rQt73Th1dwKBgQDiJvXPsaWNJw0lvrFW\nGwY557JRYgcNpwQAAJOb3ezHT+qIyuyuJfXXm6Jw6ro2xK91ruJuzZOX6N6XBlZ3\nqPpeC0RsZkV0MHzLiSSMr5u6z2dy5xBz/qTNOtw18Jtw4lkkmz/VyEZCL+tZQOZJ\ng4440Z9Zy0i0T70lZ8YSkalMYwKBgQC5myoDKpPxSwSTPU2C7V+GkwPoaM0H3eSf\nx2uWQxUkBWvAOryOPYpp6XCKdXQV1BT8G/fsK/Cc95ggrQ4LFeIx+jTLuvG4wVU/\nUcyubdP/5wFMwGVYVVJfkCwi80vorrOVStx90BYIsmrydlSAnlVSC095XGy/5Qj8\nZ+mwhpo6KwKBgGwefD6Di8Zj+SEmfdnQqbVdVB8cYorgYkUuAWPvQZg4WMR1X5oS\ng+pEefDKB6TPe6MjrRWUKw/hQSmq2gPzQV9cu6Wnb2URGVilhFfOTQGOzsJcPb12\n7ItBrK4NDgN183BQ2L/4M77I8heFs5NJ1eDMNwbS7TtnM+KCLmwKP4pJAoGBAKJ5\nQnCdH/50NeASJLz8v8dVAHG88+X0BsMbVYGm3WW33RfcEtzM4FJQR/TcVi8ZhPkg\nHom9+RXe42uPMaDgmi43oWnKDvk1PEN+fpceixsTA59FODH4FnCTCx/ZLFTWQVvp\nuVPlCLS6QkZW8SfZ8kQspHhPQN9GRfR1niqp2W4bAoGBALWaUMLqjzBPoGDV9TSs\nvdbSjQI7+Z5aJ4NOX8p9LWyKOub1ra6xgH56jKJBXGFB74JRU5WDHyxQARM76i0O\n+1Zx4lPfak8AzWaJZQpZ6AfjYhCF1ip+BJhNheRfn19AMwLcGjP13z+8We6ghz0D\n8bQMUJ4d76ce3+cQT1p7R3aA\n-----END PRIVATE KEY-----\n",
+  "client_email": "mail-merge-service@mail-merge-375918.iam.gserviceaccount.com",
+  "client_id": "116009435606941538266",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/mail-merge-service%40mail-merge-375918.iam.gserviceaccount.com"
+}
