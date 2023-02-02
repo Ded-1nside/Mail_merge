@@ -16,12 +16,20 @@ from email.mime.multipart import MIMEMultipart
 from mimetypes import guess_type as guess_mime_type  
 #import for spreadsheets
 import gspread
-  
+#imports for tracking
+import pytracking
+from pytracking.html import adapt_html
+
 # Request all access from Gmail, Drive and Spreadsheets APIs and project  
 SCOPES = ['https://mail.google.com/', 'https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/spreadsheets'] # providing the scope for Gmail, Drive and Spreadsheets APIs  
 sender_mail = 'nikdanakari@gmail.com' # giving our Gmail Id  
+
 gs = gspread.service_account(filename='creds.json')
-  
+
+html_email_text = "..." #TODO: add code to use templates from Drafts
+new_html_email_text = adapt_html(
+    html_email_text, extra_metadata={"customer_id": 1},
+    click_tracking=True, open_tracking=True)  
 # using a default function to authenticate Gmail APIs  
 def authenticateGmailAPIs():  
     creds = None  
@@ -43,7 +51,9 @@ def authenticateGmailAPIs():
   
 # get the Gmail API service by calling the function  
 services_GA = authenticateGmailAPIs()  
-  
+
+draft = services_GA.users().drafts().get(userId="me", id='r-7809620302005353755').execute() #getting info about draft
+
 # function to add attachments  
 def add_attachment(mail, filename):  
     content_type, encoding = guess_mime_type(filename)  
@@ -103,6 +113,7 @@ if __name__ == "__main__":
     recievers = worksheet.col_values(1)
     counter = 0
     for reciever in recievers:
-        send_mail(services_GA, reciever, "Sub", "Body", ["test.txt"]) # sending mail
+        send_mail(services_GA, reciever, draft['message']['payload']["headers"][3]['value'], draft['message']['snippet'], ["test.txt"]) # sending mail # sending mail
         counter += 1
         worksheet.update_cell(counter, 2, 'sent')
+        #TODO: add open and URL-click tracking
