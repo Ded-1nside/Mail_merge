@@ -114,7 +114,7 @@ if __name__ == "__main__":
     recievers = worksheet.col_values(1)
     counter = 0
     for reciever in recievers:
-        send_mail(services_GA, reciever, draft['message']['payload']["headers"][3]['value'], draft['message']['snippet'], ["test.txt"]) # sending mail # sending mail
+        send_mail(services_GA, reciever, draft['message']['payload']["headers"][3]['value'], draft['message']['snippet'], ["test.txt"]) # sending mail
         counter += 1
         worksheet.update_cell(counter, 2, 'sent')
         #TODO: add open and URL-click tracking
