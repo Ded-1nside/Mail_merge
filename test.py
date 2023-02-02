@@ -52,7 +52,8 @@ def authenticateGmailAPIs():
 # get the Gmail API service by calling the function  
 services_GA = authenticateGmailAPIs()  
 
-draft = services_GA.users().drafts().get(userId="me", id='r-7809620302005353755').execute() #getting info about draft
+draft_id = input("Type your draft ID: ")
+draft = services_GA.users().drafts().get(userId="me", id=draft_id).execute() #getting info about draft
 
 # function to add attachments  
 def add_attachment(mail, filename):  
